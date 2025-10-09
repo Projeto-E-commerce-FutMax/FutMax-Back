@@ -1,4 +1,58 @@
 package com.trier.futmax.model;
 
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "TBUSUARIO")
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CDUSUARIO")
+    private Long cdUsuario;
+
+    @Column(name = "NMUSUARIO")
+    private String nmUsuario;
+
+    @Column(name = "NMEMAIL")
+    private String nmEmail;
+
+    @Column(name = "NMCPF")
+    private String nmCpf;
+
+    @Column(name = "NMSENHA")
+    private String nmSenha;
+
+    @Column(name = "NMTELEFONE")
+    private Integer nmTelefone;
+
+    @Column(name = "NMENDERECO")
+    private String nmEndereco;
+
+    @Column(name = "DSENDERECO")
+    private String dsEndereco;
+
+    @Column(name = "FLATIVO")
+    private String flAtivo;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TBUSUARIOROLES",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
 }
