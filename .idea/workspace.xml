@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3718d9c-5867-4835-a8ca-a1cbf6515441" name="Changes" comment="" />
+    <list default="true" id="e3718d9c-5867-4835-a8ca-a1cbf6515441" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/controller/EstoqueController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/request/EstoqueRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/response/EstoqueResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/service/EstoqueService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/EstoqueDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/model/EstoqueModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/model/EstoqueModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/model/ProdutoModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/model/ProdutoModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/repository/EstoqueRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/repository/EstoqueRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
         <option value="Record" />
-        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -68,7 +79,8 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;rafael&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Estoque&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/rafael_veronez/Desktop/FutMax/src/main/java/org/example/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
@@ -77,6 +89,13 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
   }
 }</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="e3718d9c-5867-4835-a8ca-a1cbf6515441" name="Changes" comment="" />

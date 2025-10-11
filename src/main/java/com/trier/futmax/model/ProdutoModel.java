@@ -17,9 +17,8 @@ public class ProdutoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "CDPRODUTO")
-    private long cdProduto;
+    private Long cdProduto;
 
     @Column(name = "NMPRODUTO")
     private String nmProduto;
@@ -28,7 +27,7 @@ public class ProdutoModel {
     private String dsProduto;
 
     @Column(name = "VLPRODUTO")
-    private double vlProduto;
+    private Double vlProduto;
 
     @Column(name = "FLATIVO" )
     private String flAtivo = "Sim";

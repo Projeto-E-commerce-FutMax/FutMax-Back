@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity(name = "TBESTOQUE")
 @Table(name = "TBESTOQUE")
 @NoArgsConstructor
@@ -27,11 +29,10 @@ public class EstoqueModel {
     private Integer qtEstoque;
 
     @Column(name = "FLATIVO")
-    private String flAtivo = "";
+    private String flAtivo = "Sim";
 
-    //@OneToMany
-    //@JoinColumn(name = "CDPRODUTO")
-    //private List<ProdutoModel> cdProduto;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CDPRODUTO", referencedColumnName = "CDPRODUTO")
+    private ProdutoModel produto;
 
 }

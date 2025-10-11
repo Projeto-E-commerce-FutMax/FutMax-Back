@@ -9,4 +9,6 @@ public interface EstoqueRepository extends JpaRepository<EstoqueModel, Integer> 
 
     Optional<EstoqueModel> findByCdEstoque(Integer cdEstoque);
 
+    Optional<EstoqueModel> findAll(Integer cdEstoque);
+
 }
