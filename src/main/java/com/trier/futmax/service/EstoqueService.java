@@ -27,7 +27,7 @@ public class EstoqueService {
 
         ProdutoModel produto = null;
         if (estoqueRequest.produto() != null) {
-            produto = produtoRepository.findById(estoqueRequest.cdProduto())
+            produto = produtoRepository.findById(estoqueRequest.produto().getCdProduto())
                     .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
         }
 
