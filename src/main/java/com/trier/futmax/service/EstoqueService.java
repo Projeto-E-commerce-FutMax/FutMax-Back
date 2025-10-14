@@ -6,6 +6,7 @@ import com.trier.futmax.model.EstoqueModel;
 import com.trier.futmax.model.ProdutoModel;
 import com.trier.futmax.repository.EstoqueRepository;
 import com.trier.futmax.repository.ProdutoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,18 @@ public class EstoqueService {
     @Transactional
     public EstoqueResponseDTO cadastrarEstoque(EstoqueRequestDTO estoqueRequest) {
 
-        var estoque = new EstoqueModel();
+        ProdutoModel produto = null;
+        if (estoqueRequest.produto() != null) {
+            produto = produtoRepository.findById(estoqueRequest.cdProduto())
+                    .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+        }
 
+        var estoque = new EstoqueModel();
         estoque.setCdLocalEstoque(estoqueRequest.cdLocalEstoque());
         estoque.setQtEstoque(estoqueRequest.qtEstoque());
+        estoque.setFlAtivo(true);
+        estoque.setProduto(estoqueRequest.produto());
+
         estoqueRepository.save(estoque);
 
         return new EstoqueResponseDTO(
@@ -35,7 +44,7 @@ public class EstoqueService {
                 estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
+                estoque.getProduto()
         );
     }
 
@@ -50,7 +59,7 @@ public class EstoqueService {
                 estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
+                estoque.getProduto()
         );
     }
 
@@ -62,6 +71,8 @@ public class EstoqueService {
 
     @Transactional
     public EstoqueResponseDTO atualizarEstoque(Integer cdEstoque, EstoqueRequestDTO estoqueRequest) {
+
+        ProdutoModel produto = null;
 
         EstoqueModel estoque = estoqueRepository.findByCdEstoque(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
@@ -76,7 +87,7 @@ public class EstoqueService {
                 estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
+                estoque.getProduto()
         );
     }
 

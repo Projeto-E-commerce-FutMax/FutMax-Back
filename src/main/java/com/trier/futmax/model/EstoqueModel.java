@@ -29,9 +29,9 @@ public class EstoqueModel {
     private Integer qtEstoque;
 
     @Column(name = "FLATIVO")
-    private String flAtivo = "Sim";
+    private Boolean flAtivo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CDPRODUTO", referencedColumnName = "CDPRODUTO")
     private ProdutoModel produto;
 

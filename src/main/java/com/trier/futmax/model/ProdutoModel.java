@@ -30,6 +30,6 @@ public class ProdutoModel {
     private Double vlProduto;
 
     @Column(name = "FLATIVO" )
-    private String flAtivo = "Sim";
+    private Boolean flAtivo;
 
 }

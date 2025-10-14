@@ -5,6 +5,6 @@ import com.trier.futmax.model.ProdutoModel;
 public record EstoqueResponseDTO(Integer cdEstoque,
                                  String cdLocalEstoque,
                                  Integer qtEstoque,
-                                 String flAtivo,
-                                 Long cdProduto) {
+                                 Boolean flAtivo,
+                                 ProdutoModel produto) {
 }

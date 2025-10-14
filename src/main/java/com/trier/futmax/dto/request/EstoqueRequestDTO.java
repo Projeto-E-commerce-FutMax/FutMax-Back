@@ -8,5 +8,5 @@ public record EstoqueRequestDTO(@NotBlank(message = "É preciso informar o local
                                 @NotNull(message = "É preciso informar a quantidade que será adicionada ao estoque!")
                          Integer qtEstoque,
                                 @NotNull(message = "É preciso informar o código do produto!")
-                         ProdutoModel cdProduto) {
+                         ProdutoModel produto) {
 }
