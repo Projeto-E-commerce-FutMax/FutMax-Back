@@ -32,4 +32,8 @@ public class ProdutoModel {
     @Column(name = "FLATIVO" )
     private Boolean flAtivo;
 
+    public Long getCdProduto() {
+        return cdProduto;
+    }
+
 }
