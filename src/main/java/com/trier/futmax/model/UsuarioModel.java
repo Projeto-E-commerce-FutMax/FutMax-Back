@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TBUSUARIO")
-public class Usuario {
+public class UsuarioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,13 +46,13 @@ public class Usuario {
     private String dsEndereco;
 
     @Column(name = "FLATIVO")
-    private String flAtivo;
+    private Boolean flAtivo;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TBUSUARIOROLES",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleModel> roleModels = new HashSet<>();
 
 }
