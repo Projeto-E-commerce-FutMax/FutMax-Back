@@ -72,8 +72,6 @@ public class EstoqueService {
     @Transactional
     public EstoqueResponseDTO atualizarEstoque(Integer cdEstoque, EstoqueRequestDTO estoqueRequest) {
 
-        ProdutoModel produto = null;
-
         EstoqueModel estoque = estoqueRepository.findByCdEstoque(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
