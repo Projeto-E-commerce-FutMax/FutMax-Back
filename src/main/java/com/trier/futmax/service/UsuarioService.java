@@ -21,7 +21,6 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UsuarioResponseDTO salvar(UsuarioRequestDTO dto) {
@@ -29,7 +28,6 @@ public class UsuarioService {
         usuario.setNmUsuario(dto.nmUsuario());
         usuario.setNmEmail(dto.nmEmail());
         usuario.setNmCpf(dto.nmCpf());
-        usuario.setNmSenha(passwordEncoder.encode(dto.nmSenha()));
         usuario.setNmTelefone(dto.nmTelefone());
         usuario.setNmEndereco(dto.nmEndereco());
         usuario.setDsEndereco(dto.dsEndereco());

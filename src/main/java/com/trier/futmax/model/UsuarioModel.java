@@ -49,11 +49,10 @@ public class UsuarioModel {
     private Boolean flAtivo;
 
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TBUSUARIOROLES",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleModel> roleModels = new HashSet<>();
 
- 
+}

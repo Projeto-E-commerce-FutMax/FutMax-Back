@@ -2,11 +2,11 @@ package com.trier.futmax.service;
 
 import com.trier.futmax.dto.request.ProdutoRequestDTO;
 import com.trier.futmax.dto.response.ProdutoResponseDTO;
-import com.trier.futmax.model.EstoqueModel;
 import com.trier.futmax.model.ProdutoModel;
 import com.trier.futmax.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -45,9 +45,9 @@ public class ProdutoService {
         );
     }
 
-    public ProdutoResponseDTO atualizarProduto(ProdutoRequestDTO produtoRequestDTO) {
-        ProdutoModel produto = produtoRepository.findByCdProduto(produtoRequestDTO.cdProduto())
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado para o ID: " + produtoRequestDTO.cdProduto()));
+    public ProdutoResponseDTO atualizarProduto(Long cdProduto, ProdutoRequestDTO produtoRequestDTO) {
+        ProdutoModel produto = produtoRepository.findById(cdProduto)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado para o ID: " + cdProduto));
 
         produto.setNmProduto(produtoRequestDTO.nmProduto());
         produto.setDsProduto(produtoRequestDTO.dsProduto());
@@ -66,16 +66,40 @@ public class ProdutoService {
     }
 
     public List<ProdutoModel> consultarTodos() {
-
         return produtoRepository.findAll();
     }
 
-    public void desativarProduto(Long cdProduto) {
+    public ProdutoResponseDTO desativarProduto(Long cdProduto) {
         ProdutoModel produto = produtoRepository.findByCdProduto(cdProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado para o ID: " + cdProduto));
 
         produto.setFlAtivo(false);
         produtoRepository.save(produto);
+
+        return new ProdutoResponseDTO(
+                produto.getCdProduto(),
+                produto.getNmProduto(),
+                produto.getDsProduto(),
+                produto.getVlProduto(),
+                produto.getFlAtivo()
+        );
+
+    }
+
+    public ProdutoResponseDTO reativarProduto(Long cdProduto) {
+        ProdutoModel produto = produtoRepository.findByCdProduto(cdProduto)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado para o ID: " + cdProduto));
+
+        produto.setFlAtivo(true);
+        produtoRepository.save(produto);
+
+        return new ProdutoResponseDTO(
+                produto.getCdProduto(),
+                produto.getNmProduto(),
+                produto.getDsProduto(),
+                produto.getVlProduto(),
+                produto.getFlAtivo()
+        );
 
     }
 

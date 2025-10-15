@@ -28,27 +28,38 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
     }
 
-    @GetMapping("/buscar")
-    public ResponseEntity<ProdutoResponseDTO> consultar(@RequestParam Long cdProduto) {
+    @GetMapping("/buscar/{cdProduto}")
+    public ResponseEntity<ProdutoResponseDTO> consultar(@PathVariable Long cdProduto) {
         ProdutoResponseDTO produto = produtoService.consultarProduto(cdProduto);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
-    @GetMapping("/consultarTodos")
+    @GetMapping("/buscar/todos")
     public ResponseEntity<List<ProdutoModel>> consultarTodos() {
         var produto = produtoService.consultarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@RequestBody @Valid ProdutoRequestDTO produtoRequest) {
-        ProdutoResponseDTO produto = produtoService.atualizarProduto(produtoRequest);
+    @PutMapping("/atualizar/{cdProduto}")
+    public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@PathVariable Long cdProduto,
+            @RequestBody @Valid ProdutoRequestDTO produtoRequestDTO
+    ) {
+        ProdutoResponseDTO produto = produtoService.atualizarProduto(cdProduto, produtoRequestDTO);
+        return ResponseEntity.ok(produto);
+    }
+
+    @DeleteMapping("/desativar/{cdProduto}")
+    public ResponseEntity<ProdutoResponseDTO> desativarProduto(@PathVariable Long cdProduto) {
+        var produto = produtoService.desativarProduto(cdProduto);
+        return ResponseEntity.status(HttpStatus.OK).body(produto);    }
+
+    
+    @PutMapping("/reativar/{cdProduto}")
+    public ResponseEntity<ProdutoResponseDTO> reativarProduto(@PathVariable Long cdProduto) {
+        var produto = produtoService.reativarProduto(cdProduto);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
+
     }
-    @DeleteMapping("Desativar")
-    public ResponseEntity<ProdutoResponseDTO> desativarProduto(@RequestParam Long cdProduto) {
-        produtoService.desativarProduto(cdProduto);
-        return ResponseEntity.noContent().build();
-    }
+
 }
 

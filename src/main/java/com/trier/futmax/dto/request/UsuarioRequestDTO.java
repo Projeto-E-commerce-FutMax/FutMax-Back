@@ -42,5 +42,5 @@ public record UsuarioRequestDTO(
         @NotNull(message = "O status ativo é obrigatório")
         Boolean flAtivo
 
-) {
+) { }
 
