@@ -3,6 +3,9 @@ package com.trier.futmax.dto.request;
 import jakarta.validation.constraints.*;
 
 public record ProdutoRequestDTO(
+
+        Long cdProduto,
+
         @NotBlank (message = "O nome do produto é obrigatório")
         @Size (max = 100, message = "O nome do produto deve ter no máximo 100 caracteres")
         String nmProduto,
