@@ -1,6 +1,5 @@
 package com.trier.futmax.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,7 +45,9 @@ public class UsuarioModel {
     private String dsEndereco;
 
     @Column(name = "FLATIVO")
+
     private Boolean flAtivo;
+
 
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -55,4 +56,4 @@ public class UsuarioModel {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleModel> roleModels = new HashSet<>();
 
-}
+ 
