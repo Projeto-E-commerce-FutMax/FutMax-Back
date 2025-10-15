@@ -6,5 +6,5 @@ public record EstoqueResponseDTO(Integer cdEstoque,
                                  String cdLocalEstoque,
                                  Integer qtEstoque,
                                  Boolean flAtivo,
-                                 ProdutoModel produto) {
+                                 Long cdProduto) {
 }
