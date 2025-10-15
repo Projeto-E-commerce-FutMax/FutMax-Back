@@ -21,6 +21,6 @@ public record UsuarioResponseDTO(
 
 
 
-) {
+) { }
 
 

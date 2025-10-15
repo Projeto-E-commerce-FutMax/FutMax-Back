@@ -18,7 +18,7 @@ public record ProdutoRequestDTO(
         @Size (max = 255, message = "A descrição do produto deve ter no máximo 255 caracteres")
         String dsProduto,
 
-        @NotBlank (message = "O campo ativo é obrigatório")
+        @NotNull(message = "O status ativo é obrigatório")
         Boolean flAtivo
 ) {
 
