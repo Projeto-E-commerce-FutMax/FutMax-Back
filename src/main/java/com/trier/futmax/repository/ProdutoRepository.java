@@ -11,5 +11,4 @@ public interface ProdutoRepository extends JpaRepository<ProdutoModel, Long> {
 
     Optional<ProdutoModel> findByNmProduto(String nmProduto);
 
-
 }
