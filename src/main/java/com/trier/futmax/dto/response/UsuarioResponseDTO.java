@@ -11,7 +11,7 @@ public record UsuarioResponseDTO(
 
         String nmCpf,
 
-        Integer nmTelefone,
+        String nmTelefone,
 
         String nmEndereco,
 

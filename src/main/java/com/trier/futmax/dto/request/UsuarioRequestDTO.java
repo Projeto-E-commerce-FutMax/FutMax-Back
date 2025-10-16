@@ -28,9 +28,7 @@ public record UsuarioRequestDTO(
         String nmSenha,
 
         @NotNull(message = "O telefone é obrigatório")
-        @Min(value = 8, message = "Telefone inválido - mínimo 8 dígitos")
-        @Max(value = 9, message = "Telefone inválido - máximo 9 dígitos")
-        Integer nmTelefone,
+        String nmTelefone,
 
         @NotBlank(message = "O endereço é obrigatório")
         @Size(max = 100, message = "O endereço deve ter no máximo 100 caracteres")

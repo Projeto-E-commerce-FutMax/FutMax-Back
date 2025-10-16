@@ -36,7 +36,7 @@ public class UsuarioModel {
     private String nmSenha;
 
     @Column(name = "NMTELEFONE")
-    private Integer nmTelefone;
+    private String nmTelefone;
 
     @Column(name = "NMENDERECO")
     private String nmEndereco;
