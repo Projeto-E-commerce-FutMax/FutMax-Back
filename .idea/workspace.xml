@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3718d9c-5867-4835-a8ca-a1cbf6515441" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/controller/PedidoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/request/PedidoRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/response/PedidoResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/model/PedidoModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/repository/PedidoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/service/PedidoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/repository/ProdutoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/repository/ProdutoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/response/PedidoResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/dto/response/PedidoResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trier/futmax/service/PedidoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trier/futmax/service/PedidoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
