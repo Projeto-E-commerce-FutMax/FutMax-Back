@@ -1,7 +1,9 @@
 package com.trier.futmax.service;
 
 import com.trier.futmax.dto.request.ProdutoRequestDTO;
+import com.trier.futmax.dto.response.PedidoResponseDTO;
 import com.trier.futmax.dto.response.ProdutoResponseDTO;
+import com.trier.futmax.model.PedidoModel;
 import com.trier.futmax.model.ProdutoModel;
 import com.trier.futmax.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
@@ -65,8 +69,20 @@ public class ProdutoService {
         );
     }
 
-    public List<ProdutoModel> consultarTodos() {
-        return produtoRepository.findAll();
+    public List<ProdutoResponseDTO> buscarTodos() {
+        List<ProdutoModel> produto = produtoRepository.findAll();
+        return produto.stream()
+                .map(this:: convertToResponseDTO)
+                .toList();
+    }
+    private ProdutoResponseDTO convertToResponseDTO(ProdutoModel pedido) {
+        return new ProdutoResponseDTO(
+                pedido.getCdProduto(),
+                pedido.getNmProduto(),
+                pedido.getDsProduto(),
+                pedido.getVlProduto(),
+                pedido.getFlAtivo()
+        );
     }
 
     public ProdutoResponseDTO desativarProduto(Long cdProduto) {
