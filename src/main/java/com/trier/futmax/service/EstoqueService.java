@@ -63,7 +63,6 @@ public class EstoqueService {
         );
     }
 
-    @Transactional
     public List<EstoqueModel> consultarTodos() {
 
         return estoqueRepository.findAll();
