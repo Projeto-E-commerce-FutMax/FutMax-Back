@@ -49,9 +49,9 @@ public class EstoqueService {
     }
 
     @Transactional
-    public EstoqueResponseDTO consultarEstoque(Integer cdEstoque) {
+    public EstoqueResponseDTO consultarEstoque(Long cdEstoque) {
 
-        EstoqueModel estoque = estoqueRepository.findByCdEstoque(cdEstoque)
+        EstoqueModel estoque = estoqueRepository.findById(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
         return new EstoqueResponseDTO(
@@ -69,9 +69,9 @@ public class EstoqueService {
     }
 
     @Transactional
-    public EstoqueResponseDTO atualizarEstoque(Integer cdEstoque, EstoqueRequestDTO estoqueRequest) {
+    public EstoqueResponseDTO atualizarEstoque(Long cdEstoque, EstoqueRequestDTO estoqueRequest) {
 
-        EstoqueModel estoque = estoqueRepository.findByCdEstoque(cdEstoque)
+        EstoqueModel estoque = estoqueRepository.findById(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
         estoque.setCdLocalEstoque(estoqueRequest.cdLocalEstoque());
@@ -89,9 +89,9 @@ public class EstoqueService {
     }
 
     @Transactional
-    public void removerEstoque(Integer cdEstoque) {
+    public void removerEstoque(Long cdEstoque) {
 
-        EstoqueModel estoque = estoqueRepository.findByCdEstoque(cdEstoque)
+        EstoqueModel estoque = estoqueRepository.findById(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
         estoqueRepository.delete(estoque);

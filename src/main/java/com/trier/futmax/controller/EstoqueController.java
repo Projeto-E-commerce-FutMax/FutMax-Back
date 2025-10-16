@@ -4,7 +4,6 @@ import com.trier.futmax.dto.request.EstoqueRequestDTO;
 import com.trier.futmax.dto.response.EstoqueResponseDTO;
 import com.trier.futmax.model.EstoqueModel;
 import com.trier.futmax.service.EstoqueService;
-import com.trier.futmax.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class EstoqueController {
     }
 
     @GetMapping("/buscar/{cdEstoque}")
-    public ResponseEntity<EstoqueResponseDTO> consultar(@PathVariable Integer cdEstoque) {
+    public ResponseEntity<EstoqueResponseDTO> consultar(@PathVariable Long cdEstoque) {
         EstoqueResponseDTO estoque = estoqueService.consultarEstoque(cdEstoque);
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
@@ -40,14 +39,14 @@ public class EstoqueController {
     }
 
     @PutMapping("/atualizar/{cdEstoque}")
-    public ResponseEntity<EstoqueResponseDTO> atualizarEstoque(@PathVariable Integer cdEstoque,
+    public ResponseEntity<EstoqueResponseDTO> atualizarEstoque(@PathVariable Long cdEstoque,
                                                                @RequestBody @Valid EstoqueRequestDTO estoqueRequest) {
         EstoqueResponseDTO estoque = estoqueService.atualizarEstoque(cdEstoque, estoqueRequest);
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
 
     @DeleteMapping("/remover/{cdEstoque}")
-    public ResponseEntity<EstoqueResponseDTO> removerEstoque(@PathVariable Integer cdEstoque) {
+    public ResponseEntity<EstoqueResponseDTO> removerEstoque(@PathVariable Long cdEstoque) {
         estoqueService.removerEstoque(cdEstoque);
         return ResponseEntity.noContent().build();
     }
