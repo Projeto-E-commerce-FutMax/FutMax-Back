@@ -1,7 +1,7 @@
 package com.trier.futmax.dto.response;
 
 
-public record EstoqueResponseDTO(Integer cdEstoque,
+public record EstoqueResponseDTO(Long cdEstoque,
                                  String cdLocalEstoque,
                                  Integer qtEstoque,
                                  Boolean flAtivo,

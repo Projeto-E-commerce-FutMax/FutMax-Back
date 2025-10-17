@@ -8,24 +8,21 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity(name = "TBPEDIDO")
+@Entity
 @Table(name = "TBPEDIDO")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-
 public class PedidoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CDPRODUTO")
+    @Column(name = "CDPEDIDO")
     private Long cdPedido;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CDUSUARIO", referencedColumnName = "CDUSUARIO")
-    private UsuarioModel usuario;
 
     @Column(name = "VLITENS")
     private Double vlItens;
@@ -43,4 +40,10 @@ public class PedidoModel {
     @Column(name = "FLATIVO")
     private Boolean flAtivo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CDUSUARIO", referencedColumnName = "CDUSUARIO")
+    private UsuarioModel usuario;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedidoModel> itens = new ArrayList<>();
 }
