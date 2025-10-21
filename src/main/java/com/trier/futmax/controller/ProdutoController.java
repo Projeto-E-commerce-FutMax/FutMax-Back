@@ -35,8 +35,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/buscar/todos")
-    public ResponseEntity<List<ProdutoModel>> consultarTodos() {
-        var produto = produtoService.consultarTodos();
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarTodos() {
+        var produto = produtoService.buscarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
