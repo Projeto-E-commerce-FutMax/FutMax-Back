@@ -79,13 +79,13 @@ public class ProdutoService {
         List<ProdutoModel> produto = produtoRepository.findAll();
         return produto.stream().map(this:: convertToResponseDTO).toList();
     }
-    private ProdutoResponseDTO convertToResponseDTO(ProdutoModel pedido) {
+    private ProdutoResponseDTO convertToResponseDTO(ProdutoModel produto) {
         return new ProdutoResponseDTO(
-                pedido.getCdProduto(),
-                pedido.getNmProduto(),
-                pedido.getDsProduto(),
-                pedido.getVlProduto(),
-                pedido.getFlAtivo()
+                produto.getCdProduto(),
+                produto.getNmProduto(),
+                produto.getDsProduto(),
+                produto.getVlProduto(),
+                produto.getFlAtivo()
         );
     }
 
