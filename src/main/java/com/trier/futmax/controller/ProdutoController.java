@@ -1,6 +1,5 @@
 package com.trier.futmax.controller;
 
-
 import com.trier.futmax.dto.request.ProdutoRequestDTO;
 import com.trier.futmax.dto.response.ProdutoResponseDTO;
 import com.trier.futmax.service.ProdutoService;
@@ -12,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/produto")
-
 public class ProdutoController {
 
     @Autowired
@@ -36,12 +33,13 @@ public class ProdutoController {
     @GetMapping("/buscar/todos")
     public ResponseEntity<List<ProdutoResponseDTO>> buscarTodos() {
         var produto = produtoService.buscarTodos();
-
+        return ResponseEntity.status(HttpStatus.OK).body(produto);
+    }
 
     @PutMapping("/atualizar/{cdProduto}")
-    public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@PathVariable Long cdProduto,
-            @RequestBody @Valid ProdutoRequestDTO produtoRequestDTO
-    ) {
+    public ResponseEntity<ProdutoResponseDTO> atualizarProduto(
+            @PathVariable Long cdProduto,
+            @RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
         ProdutoResponseDTO produto = produtoService.atualizarProduto(cdProduto, produtoRequestDTO);
         return ResponseEntity.ok(produto);
     }
@@ -49,15 +47,12 @@ public class ProdutoController {
     @DeleteMapping("/desativar/{cdProduto}")
     public ResponseEntity<ProdutoResponseDTO> desativarProduto(@PathVariable Long cdProduto) {
         var produto = produtoService.desativarProduto(cdProduto);
-        return ResponseEntity.status(HttpStatus.OK).body(produto);    }
+        return ResponseEntity.status(HttpStatus.OK).body(produto);
+    }
 
-    
     @PutMapping("/reativar/{cdProduto}")
     public ResponseEntity<ProdutoResponseDTO> reativarProduto(@PathVariable Long cdProduto) {
         var produto = produtoService.reativarProduto(cdProduto);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
-
     }
-
 }
-
