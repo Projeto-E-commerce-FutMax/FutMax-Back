@@ -40,12 +40,51 @@ public class UsuarioService {
 
 
     public List<UsuarioResponseDTO> listar() {
-        return usuarioRepository.findAll().stream()
-                .map(this::converterParaResponse)
-                .collect(Collectors.toList());
+        List<UsuarioModel> usuario = usuarioRepository.findAllByFlAtivo();
+        return usuario.stream().map(this::converterParaResponse).collect(Collectors.toList());
     }
 
     private UsuarioResponseDTO converterParaResponse(UsuarioModel usuario) {
+        return new UsuarioResponseDTO(
+                usuario.getCdUsuario(),
+                usuario.getNmUsuario(),
+                usuario.getNmEmail(),
+                usuario.getNmCpf(),
+                usuario.getNmTelefone(),
+                usuario.getNmEndereco(),
+                usuario.getDsEndereco(),
+                usuario.getFlAtivo()
+        );
+    }
+
+    @Transactional
+    public UsuarioResponseDTO desativar(Long cdUsuario) {
+        UsuarioModel usuario = usuarioRepository.findById(cdUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        usuario.setFlAtivo(false);
+        usuarioRepository.save(usuario);
+
+        return new UsuarioResponseDTO(
+                usuario.getCdUsuario(),
+                usuario.getNmUsuario(),
+                usuario.getNmEmail(),
+                usuario.getNmCpf(),
+                usuario.getNmTelefone(),
+                usuario.getNmEndereco(),
+                usuario.getDsEndereco(),
+                usuario.getFlAtivo()
+        );
+    }
+
+    @Transactional
+    public UsuarioResponseDTO reativar(Long cdUsuario) {
+        UsuarioModel usuario = usuarioRepository.findById(cdUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        usuario.setFlAtivo(true);
+        usuarioRepository.save(usuario);
+
         return new UsuarioResponseDTO(
                 usuario.getCdUsuario(),
                 usuario.getNmUsuario(),

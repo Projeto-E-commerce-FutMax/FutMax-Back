@@ -16,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TBUSUARIO")
+
 public class UsuarioModel {
 
     @Id
@@ -45,9 +46,7 @@ public class UsuarioModel {
     private String dsEndereco;
 
     @Column(name = "FLATIVO")
-
     private Boolean flAtivo;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TBUSUARIOROLES",
