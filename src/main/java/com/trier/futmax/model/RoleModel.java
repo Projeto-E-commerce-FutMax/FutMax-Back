@@ -18,7 +18,7 @@ public class RoleModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CDROLE")
     private Long cdRole;
-    @Column(name = "NMROLE")
+    @Column(name = "NMROLE", unique = true, nullable = false)
     private String nmRole;
 
 }

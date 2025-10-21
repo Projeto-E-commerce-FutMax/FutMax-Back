@@ -19,7 +19,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    @PostMapping("/criar")
+    @PostMapping("/cadastrar")
     public ResponseEntity<PedidoResponseDTO> criarPedido(
             @RequestBody @Valid PedidoRequestDTO pedidoRequest) {
 
