@@ -21,28 +21,35 @@ public class EstoqueService {
     private final ProdutoRepository produtoRepository;
 
     @Transactional
-    public  EstoqueResponseDTO cadastrarEstoque(EstoqueRequestDTO estoqueRequest) {
+    public EstoqueResponseDTO cadastrarEstoque(EstoqueRequestDTO estoqueRequest) {
 
-        ProdutoModel produto = null;
-        if (estoqueRequest.cdProduto() != null) {
-            produto = produtoRepository.findById(estoqueRequest.cdProduto())
-                    .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+        if (estoqueRequest.cdProduto() == null) {
+            throw new IllegalArgumentException("Código do produto é obrigatório!");
         }
 
-        var estoque = new EstoqueModel();
-        estoque.setQtEstoque(estoqueRequest.qtEstoque());
+        ProdutoModel produto = produtoRepository.findById(estoqueRequest.cdProduto())
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
+
+        EstoqueModel estoque = estoqueRepository.findById(estoqueRequest.cdProduto())
+                .orElseGet(() -> {
+                    EstoqueModel novoEstoque = new EstoqueModel();
+                    novoEstoque.setProduto(produto);
+                    novoEstoque.setQtEstoque(0);
+                    novoEstoque.setFlAtivo(true);
+                    return novoEstoque;
+                });
+
+        estoque.setQtEstoque(estoque.getQtEstoque() + estoqueRequest.qtEstoque());
         estoque.setFlAtivo(true);
-        estoque.setProduto(produto);
 
         estoqueRepository.save(estoque);
 
-        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
                 estoque.getProduto().getCdProduto(),
-                estoque.getProduto().getNmProduto()) ;
+                estoque.getProduto().getNmProduto());
     }
 
     @Transactional
