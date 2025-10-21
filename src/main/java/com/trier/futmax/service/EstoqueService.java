@@ -30,20 +30,19 @@ public class EstoqueService {
         }
 
         var estoque = new EstoqueModel();
-        estoque.setCdLocalEstoque(estoqueRequest.cdLocalEstoque());
         estoque.setQtEstoque(estoqueRequest.qtEstoque());
         estoque.setFlAtivo(true);
         estoque.setProduto(produto);
 
         estoqueRepository.save(estoque);
 
+        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
-        );
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()) ;
     }
 
     @Transactional
@@ -52,12 +51,13 @@ public class EstoqueService {
         EstoqueModel estoque = estoqueRepository.findById(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
+        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()
         );
     }
 
@@ -71,18 +71,20 @@ public class EstoqueService {
         EstoqueModel estoque = estoqueRepository.findById(cdEstoque)
                 .orElseThrow(() -> new RuntimeException("Estoque não encontrado para o ID: " + cdEstoque));
 
-        estoque.setCdLocalEstoque(estoqueRequest.cdLocalEstoque());
         estoque.setQtEstoque(estoqueRequest.qtEstoque());
 
         estoqueRepository.save(estoque);
 
+        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
-        );
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()
+        ) ;
+
+
     }
 
     @Transactional
@@ -168,7 +170,6 @@ public class EstoqueService {
         EstoqueModel estoque = estoques.stream()
                 .filter(e -> e.getProduto() != null &&
                         e.getProduto().getCdProduto().equals(cdProduto) &&
-                        e.getCdLocalEstoque().equals(cdLocalEstoque) &&
                         e.getFlAtivo())
                 .findFirst()
                 .orElse(null);
@@ -177,7 +178,6 @@ public class EstoqueService {
             // Criar novo estoque
             estoque = new EstoqueModel();
             estoque.setProduto(produto);
-            estoque.setCdLocalEstoque(cdLocalEstoque);
             estoque.setQtEstoque(quantidade);
             estoque.setFlAtivo(true);
         } else {
@@ -189,11 +189,11 @@ public class EstoqueService {
 
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto().getCdProduto()
-        );
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()) ;
+
     }
 
 
@@ -205,10 +205,10 @@ public class EstoqueService {
                         e.getProduto().getCdProduto().equals(cdProduto))
                 .map(e -> new EstoqueResponseDTO(
                         e.getCdEstoque(),
-                        e.getCdLocalEstoque(),
                         e.getQtEstoque(),
                         e.getFlAtivo(),
-                        e.getProduto().getCdProduto()
+                        e.getProduto().getCdProduto(),
+                        e.getProduto().getNmProduto()
                 ))
                 .toList();
     }
@@ -221,13 +221,15 @@ public class EstoqueService {
         estoque.setFlAtivo(false);
         estoqueRepository.save(estoque);
 
+        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()
         );
+
     }
 
     @Transactional
@@ -238,12 +240,15 @@ public class EstoqueService {
         estoque.setFlAtivo(true);
         estoqueRepository.save(estoque);
 
+        assert estoque.getProduto() != null;
         return new EstoqueResponseDTO(
                 estoque.getCdEstoque(),
-                estoque.getCdLocalEstoque(),
                 estoque.getQtEstoque(),
                 estoque.getFlAtivo(),
-                estoque.getProduto() != null ? estoque.getProduto().getCdProduto() : null
-        );
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()
+        ) ;
+
+
     }
 }

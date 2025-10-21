@@ -12,6 +12,7 @@ public record ProdutoRequestDTO(
 
         @NotNull (message = "O preço do produto é obrigatório")
         @Positive (message = "O preço do produto deve ser positivo")
+        @Min(value = 100)
         Double vlProduto,
 
         @NotNull (message = "A descrição do produto é obrigatória")

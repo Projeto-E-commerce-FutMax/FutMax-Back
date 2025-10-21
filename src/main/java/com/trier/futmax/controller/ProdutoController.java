@@ -3,7 +3,6 @@ package com.trier.futmax.controller;
 
 import com.trier.futmax.dto.request.ProdutoRequestDTO;
 import com.trier.futmax.dto.response.ProdutoResponseDTO;
-import com.trier.futmax.model.ProdutoModel;
 import com.trier.futmax.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,14 @@ public class ProdutoController {
     }
 
     @GetMapping("/buscar/todos")
-    public ResponseEntity<List<ProdutoModel>> consultarTodos() {
-        var produto = produtoService.consultarTodos();
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarTodos() {
+        var produto = produtoService.buscarTodos();
+        return ResponseEntity.status(HttpStatus.OK).body(produto);
+    }
+
+    @GetMapping("/buscar/todos/ativos")
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarTodosAtivos() {
+        var produto = produtoService.buscarTodosAtivos();
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
