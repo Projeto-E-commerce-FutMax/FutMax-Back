@@ -36,14 +36,7 @@ public class ProdutoController {
     @GetMapping("/buscar/todos")
     public ResponseEntity<List<ProdutoResponseDTO>> buscarTodos() {
         var produto = produtoService.buscarTodos();
-        return ResponseEntity.status(HttpStatus.OK).body(produto);
-    }
 
-    @GetMapping("/buscar/todos/ativos")
-    public ResponseEntity<List<ProdutoResponseDTO>> buscarTodosAtivos() {
-        var produto = produtoService.buscarTodosAtivos();
-        return ResponseEntity.status(HttpStatus.OK).body(produto);
-    }
 
     @PutMapping("/atualizar/{cdProduto}")
     public ResponseEntity<ProdutoResponseDTO> atualizarProduto(@PathVariable Long cdProduto,
