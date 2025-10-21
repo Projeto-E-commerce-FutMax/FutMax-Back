@@ -68,8 +68,19 @@ public class EstoqueService {
         );
     }
 
-    public List<EstoqueModel> consultarTodos() {
-        return estoqueRepository.findAll();
+    public List<EstoqueResponseDTO> consultarTodos() {
+        List<EstoqueModel> estoque = estoqueRepository.findAllByFlAtivo();
+        return estoque.stream().map(this:: convertToResponseDTO).toList();
+    }
+
+    private EstoqueResponseDTO convertToResponseDTO(EstoqueModel estoque) {
+        return new EstoqueResponseDTO(
+                estoque.getCdEstoque(),
+                estoque.getQtEstoque(),
+                estoque.getFlAtivo(),
+                estoque.getProduto().getCdProduto(),
+                estoque.getProduto().getNmProduto()
+        );
     }
 
     @Transactional
