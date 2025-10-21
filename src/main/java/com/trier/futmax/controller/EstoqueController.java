@@ -5,6 +5,7 @@ import com.trier.futmax.dto.response.EstoqueResponseDTO;
 import com.trier.futmax.model.EstoqueModel;
 import com.trier.futmax.service.EstoqueService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class EstoqueController {
     }
 
     @GetMapping("/buscar/todos")
-    public ResponseEntity<List<EstoqueModel>> consultarTodos() {
+    public ResponseEntity<List<EstoqueResponseDTO>> consultarTodos() {
         var estoque = estoqueService.consultarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
@@ -45,9 +46,15 @@ public class EstoqueController {
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
 
-    @DeleteMapping("/remover/{cdEstoque}")
-    public ResponseEntity<EstoqueResponseDTO> removerEstoque(@PathVariable Long cdEstoque) {
-        estoqueService.removerEstoque(cdEstoque);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/desativar/{cdEstoque}")
+    public ResponseEntity<EstoqueResponseDTO> desativarEstoque(@PathVariable Long cdEstoque) {
+        var estoque = estoqueService.desativarEstoque(cdEstoque);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(estoque);
+    }
+
+    @PutMapping("/reativar/{cdEstoque}")
+    public ResponseEntity<EstoqueResponseDTO> reativarEstoque(@PathVariable Long cdEstoque) {
+        var estoque = estoqueService.reativarEstoque(cdEstoque);
+        return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
 }
