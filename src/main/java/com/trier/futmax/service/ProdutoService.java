@@ -69,11 +69,15 @@ public class ProdutoService {
         );
     }
 
+
+    public List<ProdutoResponseDTO> buscarTodosAtivos() {
+        List<ProdutoModel> produto = produtoRepository.findAllByFlAtivo();
+        return produto.stream().map(this:: convertToResponseDTO).toList();
+    }
+
     public List<ProdutoResponseDTO> buscarTodos() {
         List<ProdutoModel> produto = produtoRepository.findAll();
-        return produto.stream()
-                .map(this:: convertToResponseDTO)
-                .toList();
+        return produto.stream().map(this:: convertToResponseDTO).toList();
     }
     private ProdutoResponseDTO convertToResponseDTO(ProdutoModel pedido) {
         return new ProdutoResponseDTO(

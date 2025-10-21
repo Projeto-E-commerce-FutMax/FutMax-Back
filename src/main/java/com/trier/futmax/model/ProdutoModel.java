@@ -22,7 +22,7 @@ public class ProdutoModel {
     @Column(name = "CDPRODUTO")
     private Long cdProduto;
 
-    @Column(name = "NMPRODUTO")
+    @Column(name = "NMPRODUTO" , unique = true)
     private String nmProduto;
 
     @Column(name = "DSPRODUTO")
@@ -33,9 +33,5 @@ public class ProdutoModel {
 
     @Column(name = "FLATIVO" )
     private Boolean flAtivo;
-
-    public Long getCdProduto() {
-        return cdProduto;
-    }
 
 }

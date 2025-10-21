@@ -26,16 +26,16 @@ public class UsuarioModel {
     @Column(name = "NMUSUARIO")
     private String nmUsuario;
 
-    @Column(name = "NMEMAIL")
+    @Column(name = "NMEMAIL", unique = true)
     private String nmEmail;
 
-    @Column(name = "NMCPF")
+    @Column(name = "NMCPF", unique = true)
     private String nmCpf;
 
     @Column(name = "NMSENHA")
     private String nmSenha;
 
-    @Column(name = "NMTELEFONE")
+    @Column(name = "NMTELEFONE", unique = true)
     private String nmTelefone;
 
     @Column(name = "NMENDERECO")

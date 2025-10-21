@@ -19,9 +19,6 @@ public class EstoqueModel {
     @Column(name = "CDESTOQUE")
     private Long cdEstoque;
 
-    @Column(name = "CDLOCALESTOQUE")
-    private String cdLocalEstoque;
-
     @Column(name = "QTESTOQUE")
     private Integer qtEstoque;
 
