@@ -33,11 +33,11 @@ public class EstoqueController {
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
     }
 
-/*    @GetMapping("/buscar/todos")
+    @GetMapping("/buscar/todos")
     public ResponseEntity<List<EstoqueResponseDTO>> consultarTodos() {
         var estoque = estoqueService.consultarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
-    }*/
+    }
 
     @PutMapping("/atualizar/{cdEstoque}")
     public ResponseEntity<EstoqueResponseDTO> atualizarEstoque(@PathVariable Long cdEstoque,
