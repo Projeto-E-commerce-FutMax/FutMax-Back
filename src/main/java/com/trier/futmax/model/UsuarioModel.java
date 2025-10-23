@@ -1,5 +1,6 @@
 package com.trier.futmax.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class UsuarioModel {
     private String nmCpf;
 
     @Column(name = "NMSENHA")
+    @JsonIgnore
     private String nmSenha;
 
     @Column(name = "NMTELEFONE", unique = true)
