@@ -26,14 +26,16 @@ public class ProdutoService {
                 produtoRequestDTO.nmProduto(),
                 produtoRequestDTO.dsProduto(),
                 produtoRequestDTO.vlProduto(),
-                true
+                true,
+                produtoRequestDTO.imgUrl()
         ));
         return  new ProdutoResponseDTO(
                 produto.getCdProduto(),
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
     }
     public ProdutoResponseDTO consultarProduto(Long cdProduto) {
@@ -45,7 +47,8 @@ public class ProdutoService {
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
     }
 
@@ -57,6 +60,9 @@ public class ProdutoService {
         produto.setDsProduto(produtoRequestDTO.dsProduto());
         produto.setVlProduto(produtoRequestDTO.vlProduto());
         produto.setFlAtivo(produtoRequestDTO.flAtivo());
+        if (produtoRequestDTO.imgUrl() != null && !produtoRequestDTO.imgUrl().isBlank()) {
+            produto.setImgUrl(produtoRequestDTO.imgUrl());
+        }
 
         produtoRepository.save(produto);
 
@@ -65,7 +71,8 @@ public class ProdutoService {
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
     }
 
@@ -85,7 +92,8 @@ public class ProdutoService {
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
     }
 
@@ -101,7 +109,8 @@ public class ProdutoService {
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
 
     }
@@ -118,7 +127,8 @@ public class ProdutoService {
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
-                produto.getFlAtivo()
+                produto.getFlAtivo(),
+                produto.getImgUrl()
         );
 
     }

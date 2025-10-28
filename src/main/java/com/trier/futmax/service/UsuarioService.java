@@ -45,13 +45,28 @@ public class UsuarioService {
         usuario.setFlAtivo(dto.flAtivo());
 
         Set<RoleModel> roles = new HashSet<>();
-        RoleModel roleUser = roleRepository.findByNmRole("ROLE_USER")
-                .orElseGet(() -> {
-                    RoleModel newRole = new RoleModel();
-                    newRole.setNmRole("ROLE_USER");
-                    return roleRepository.save(newRole);
-                });
-        roles.add(roleUser);
+
+        if (dto.roles() != null && !dto.roles().isEmpty()) {
+            // Se roles foram enviadas no DTO, usa elas
+            for (String roleName : dto.roles()) {
+                RoleModel role = roleRepository.findByNmRole(roleName)
+                        .orElseGet(() -> {
+                            RoleModel newRole = new RoleModel();
+                            newRole.setNmRole(roleName);
+                            return roleRepository.save(newRole);
+                        });
+                roles.add(role);
+            }
+        } else {
+            RoleModel roleUser = roleRepository.findByNmRole("ROLE_USER")
+                    .orElseGet(() -> {
+                        RoleModel newRole = new RoleModel();
+                        newRole.setNmRole("ROLE_USER");
+                        return roleRepository.save(newRole);
+                    });
+            roles.add(roleUser);
+        }
+
         usuario.setRoleModels(roles);
 
         UsuarioModel usuarioSalvo = usuarioRepository.save(usuario);

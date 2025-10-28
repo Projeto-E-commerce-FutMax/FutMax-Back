@@ -26,7 +26,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
-    private final UsuarioRepository usuarioRepository; // ADICIONE ESTA LINHA
+    private final UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
     @Operation(summary = "Realizar login", description = "Autentica o usuário e retorna um token JWT")

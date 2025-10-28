@@ -34,4 +34,7 @@ public class ProdutoModel {
     @Column(name = "FLATIVO" )
     private Boolean flAtivo;
 
+    @Column(name = "IMGURL")
+    private String imgUrl;
+
 }

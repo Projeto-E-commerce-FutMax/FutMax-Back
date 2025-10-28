@@ -11,17 +11,25 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/api/produto")
 @Tag(name = "Produto", description = "API para gerenciamento de produtos")
 public class ProdutoController {
+    private static final Path UPLOAD_DIR = Paths.get(System.getProperty("user.dir"), "uploads").toAbsolutePath().normalize();
+
 
     @Autowired
     private ProdutoService produtoService;
@@ -57,6 +65,68 @@ public class ProdutoController {
 
         var produto = produtoService.cadastrarProduto(produtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+    }
+
+    @PostMapping(value = "/cadastrar-com-imagem", consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(
+            summary = "Cadastrar produto com imagem",
+            description = "Cria um novo produto recebendo os campos e um arquivo de imagem"
+    )
+    public ResponseEntity<ProdutoResponseDTO> cadastrarProdutoComImagem(
+            @RequestParam("nmProduto") String nmProduto,
+            @RequestParam("vlProduto") Double vlProduto,
+            @RequestParam("dsProduto") String dsProduto,
+            @RequestParam("flAtivo") Boolean flAtivo,
+            @RequestPart(value = "imagem", required = false) MultipartFile imagem
+    ) {
+        String imgUrl = null;
+        if (imagem != null && !imagem.isEmpty()) {
+            try {
+                // Validar tamanho (5MB max)
+                if (imagem.getSize() > 5 * 1024 * 1024) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(null);
+                }
+
+                // Validar tipo
+                String contentType = imagem.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(null);
+                }
+
+                Files.createDirectories(UPLOAD_DIR);
+                String filename = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
+                Path filePath = UPLOAD_DIR.resolve(filename);
+                imagem.transferTo(filePath);
+                imgUrl = "/api/produto/imagens/" + filename;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new org.springframework.web.server.ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Falha ao salvar arquivo de imagem"
+                );
+            }
+        }
+
+        ProdutoRequestDTO dto = new ProdutoRequestDTO(null, nmProduto, vlProduto, dsProduto, flAtivo, imgUrl);
+        var produto = produtoService.cadastrarProduto(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+    }
+
+    @GetMapping("/imagens/{filename}")
+    @Operation(summary = "Servir imagem de produto")
+    public ResponseEntity<Resource> obterImagem(@PathVariable String filename) {
+        try {
+            Path filePath = UPLOAD_DIR.resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(resource);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/buscar/{cdProduto}")
@@ -154,6 +224,50 @@ public class ProdutoController {
             @RequestBody @Valid ProdutoRequestDTO produtoRequestDTO) {
 
         ProdutoResponseDTO produto = produtoService.atualizarProduto(cdProduto, produtoRequestDTO);
+        return ResponseEntity.ok(produto);
+    }
+
+    @PostMapping(value = "/atualizar-com-imagem/{cdProduto}", consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "Atualizar produto com imagem")
+    public ResponseEntity<ProdutoResponseDTO> atualizarProdutoComImagem(
+            @PathVariable Long cdProduto,
+            @RequestParam("nmProduto") String nmProduto,
+            @RequestParam("vlProduto") Double vlProduto,
+            @RequestParam("dsProduto") String dsProduto,
+            @RequestParam("flAtivo") Boolean flAtivo,
+            @RequestPart(value = "imagem", required = false) MultipartFile imagem
+    ) {
+        String imgUrl = null;
+        if (imagem != null && !imagem.isEmpty()) {
+            try {
+                // Validar tamanho (5MB max)
+                if (imagem.getSize() > 5 * 1024 * 1024) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(null);
+                }
+
+                // Validar tipo
+                String contentType = imagem.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(null);
+                }
+
+                Files.createDirectories(UPLOAD_DIR);
+                String filename = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
+                Path filePath = UPLOAD_DIR.resolve(filename);
+                imagem.transferTo(filePath);
+                imgUrl = "/api/produto/imagens/" + filename;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new org.springframework.web.server.ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Falha ao salvar arquivo de imagem"
+                );
+            }
+        }
+        ProdutoRequestDTO dto = new ProdutoRequestDTO(cdProduto, nmProduto, vlProduto, dsProduto, flAtivo, imgUrl);
+        ProdutoResponseDTO produto = produtoService.atualizarProduto(cdProduto, dto);
         return ResponseEntity.ok(produto);
     }
 

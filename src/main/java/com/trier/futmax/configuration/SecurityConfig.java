@@ -45,14 +45,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/role/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll()
 
-                        // Swagger (público para desenvolvimento)
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/produto/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/estoque/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/estoque/**").hasRole("ADMIN")
 
-                        // Rotas administrativas (apenas ADMIN)
                         .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/produto/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/produto/**").hasRole("ADMIN")
@@ -95,7 +94,11 @@ public class SecurityConfig {
         return email -> usuarioRepository.findByNmEmail(email)
                 .map(usuario -> {
                     List<GrantedAuthority> authorities = usuario.getRoleModels().stream()
-                            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getNmRole().replace("ROLE_", "")))
+                            .map(role -> {
+                                String nome = role.getNmRole();
+                                String withPrefix = nome != null && nome.startsWith("ROLE_") ? nome : "ROLE_" + nome;
+                                return new SimpleGrantedAuthority(withPrefix);
+                            })
                             .collect(Collectors.toList());
 
                     return new User(

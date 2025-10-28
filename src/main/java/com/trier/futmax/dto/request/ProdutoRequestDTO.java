@@ -20,7 +20,9 @@ public record ProdutoRequestDTO(
         String dsProduto,
 
         @NotNull(message = "O status ativo é obrigatório")
-        Boolean flAtivo
+        Boolean flAtivo,
+
+        String imgUrl
 ) {
 
 
