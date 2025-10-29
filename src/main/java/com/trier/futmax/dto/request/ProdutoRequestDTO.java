@@ -22,7 +22,10 @@ public record ProdutoRequestDTO(
         @NotNull(message = "O status ativo é obrigatório")
         Boolean flAtivo,
 
-        String imgUrl
+        String imgUrl,
+
+        @NotBlank(message = "A categoria é obrigatória")
+        String nmCategoria
 ) {
 
 

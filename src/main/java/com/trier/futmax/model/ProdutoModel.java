@@ -37,4 +37,7 @@ public class ProdutoModel {
     @Column(name = "IMGURL")
     private String imgUrl;
 
+    @Column(name = "NMCATEGORIA")
+    private String nmCategoria;
+
 }

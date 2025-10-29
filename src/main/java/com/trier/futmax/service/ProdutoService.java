@@ -1,24 +1,20 @@
 package com.trier.futmax.service;
 
 import com.trier.futmax.dto.request.ProdutoRequestDTO;
-import com.trier.futmax.dto.response.PedidoResponseDTO;
 import com.trier.futmax.dto.response.ProdutoResponseDTO;
-import com.trier.futmax.model.PedidoModel;
 import com.trier.futmax.model.ProdutoModel;
 import com.trier.futmax.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
 public class ProdutoService {
 
     public final ProdutoRepository produtoRepository;
+    public final EstoqueService estoqueService;
 
     public ProdutoResponseDTO cadastrarProduto(ProdutoRequestDTO produtoRequestDTO) {
         var produto = produtoRepository.save(new ProdutoModel(
@@ -27,29 +23,16 @@ public class ProdutoService {
                 produtoRequestDTO.dsProduto(),
                 produtoRequestDTO.vlProduto(),
                 true,
-                produtoRequestDTO.imgUrl()
+                produtoRequestDTO.imgUrl(),
+                produtoRequestDTO.nmCategoria()
         ));
-        return  new ProdutoResponseDTO(
-                produto.getCdProduto(),
-                produto.getNmProduto(),
-                produto.getDsProduto(),
-                produto.getVlProduto(),
-                produto.getFlAtivo(),
-                produto.getImgUrl()
-        );
+        return convertToResponseDTO(produto);
     }
     public ProdutoResponseDTO consultarProduto(Long cdProduto) {
         ProdutoModel produto = produtoRepository.findByCdProduto(cdProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado para o ID: " + cdProduto));
 
-        return new ProdutoResponseDTO(
-                produto.getCdProduto(),
-                produto.getNmProduto(),
-                produto.getDsProduto(),
-                produto.getVlProduto(),
-                produto.getFlAtivo(),
-                produto.getImgUrl()
-        );
+        return convertToResponseDTO(produto);
     }
 
     public ProdutoResponseDTO atualizarProduto(Long cdProduto, ProdutoRequestDTO produtoRequestDTO) {
@@ -60,20 +43,14 @@ public class ProdutoService {
         produto.setDsProduto(produtoRequestDTO.dsProduto());
         produto.setVlProduto(produtoRequestDTO.vlProduto());
         produto.setFlAtivo(produtoRequestDTO.flAtivo());
+        produto.setNmCategoria(produtoRequestDTO.nmCategoria());
         if (produtoRequestDTO.imgUrl() != null && !produtoRequestDTO.imgUrl().isBlank()) {
             produto.setImgUrl(produtoRequestDTO.imgUrl());
         }
 
         produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(
-                produto.getCdProduto(),
-                produto.getNmProduto(),
-                produto.getDsProduto(),
-                produto.getVlProduto(),
-                produto.getFlAtivo(),
-                produto.getImgUrl()
-        );
+        return convertToResponseDTO(produto);
     }
 
 
@@ -87,13 +64,28 @@ public class ProdutoService {
         return produto.stream().map(this:: convertToResponseDTO).toList();
     }
     private ProdutoResponseDTO convertToResponseDTO(ProdutoModel produto) {
+        // Buscar estoque do produto
+        Integer qtEstoque = 0;
+        try {
+            List<com.trier.futmax.dto.response.EstoqueResponseDTO> estoques = estoqueService.consultarEstoquesPorProduto(produto.getCdProduto());
+            qtEstoque = estoques.stream()
+                    .filter(e -> e.flAtivo())
+                    .mapToInt(e -> e.qtEstoque() != null ? e.qtEstoque() : 0)
+                    .sum();
+        } catch (Exception e) {
+            // Se não encontrar estoque, mantém 0
+            qtEstoque = 0;
+        }
+        
         return new ProdutoResponseDTO(
                 produto.getCdProduto(),
                 produto.getNmProduto(),
                 produto.getDsProduto(),
                 produto.getVlProduto(),
                 produto.getFlAtivo(),
-                produto.getImgUrl()
+                produto.getImgUrl(),
+                qtEstoque,
+                produto.getNmCategoria()
         );
     }
 
@@ -104,15 +96,7 @@ public class ProdutoService {
         produto.setFlAtivo(false);
         produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(
-                produto.getCdProduto(),
-                produto.getNmProduto(),
-                produto.getDsProduto(),
-                produto.getVlProduto(),
-                produto.getFlAtivo(),
-                produto.getImgUrl()
-        );
-
+        return convertToResponseDTO(produto);
     }
 
     public ProdutoResponseDTO reativarProduto(Long cdProduto) {
@@ -122,15 +106,7 @@ public class ProdutoService {
         produto.setFlAtivo(true);
         produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(
-                produto.getCdProduto(),
-                produto.getNmProduto(),
-                produto.getDsProduto(),
-                produto.getVlProduto(),
-                produto.getFlAtivo(),
-                produto.getImgUrl()
-        );
-
+        return convertToResponseDTO(produto);
     }
 
 

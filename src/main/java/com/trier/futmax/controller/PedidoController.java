@@ -46,11 +46,6 @@ public class PedidoController {
                     description = "Dados inválidos fornecidos",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<PedidoResponseDTO> criarPedido(
             @Parameter(description = "Dados do pedido a ser criado", required = true)
@@ -79,11 +74,6 @@ public class PedidoController {
                     description = "Pedido não encontrado",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<PedidoResponseDTO> buscarPedido(
             @Parameter(description = "Código do pedido", required = true, example = "1")
@@ -112,11 +102,6 @@ public class PedidoController {
                     description = "Pedido não encontrado",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<List<ItemPedidoResponseDTO>> buscarItensPedido(
             @Parameter(description = "Código do pedido", required = true, example = "1")
@@ -140,11 +125,6 @@ public class PedidoController {
                             schema = @Schema(implementation = PedidoResponseDTO.class)
                     )
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<List<PedidoResponseDTO>> buscarTodos() {
         List<PedidoResponseDTO> pedidos = pedidoService.buscarTodos();

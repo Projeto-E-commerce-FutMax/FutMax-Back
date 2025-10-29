@@ -44,11 +44,6 @@ public class EstoqueController {
                     responseCode = "400",
                     description = "Dados inválidos fornecidos",
                     content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
             )
     })
     public ResponseEntity<EstoqueResponseDTO> cadastrarEstoque(
@@ -77,11 +72,6 @@ public class EstoqueController {
                     responseCode = "404",
                     description = "Estoque não encontrado",
                     content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
             )
     })
     public ResponseEntity<EstoqueResponseDTO> consultar(
@@ -105,16 +95,107 @@ public class EstoqueController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = EstoqueResponseDTO.class)
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
             )
     })
     public ResponseEntity<List<EstoqueResponseDTO>> consultarTodos() {
         var estoque = estoqueService.consultarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(estoque);
+    }
+
+    @GetMapping("/produto/{cdProduto}")
+    @Operation(
+            summary = "Buscar estoque por produto",
+            description = "Retorna o estoque total de um produto específico (soma de todos os estoques ativos do produto)"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Estoque encontrado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = EstoqueResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Produto não encontrado ou sem estoque",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<EstoqueResponseDTO> buscarPorProduto(
+            @Parameter(description = "Código do produto", required = true, example = "1")
+            @PathVariable Long cdProduto) {
+        
+        List<EstoqueResponseDTO> estoques = estoqueService.consultarEstoquesPorProduto(cdProduto);
+        
+        if (estoques.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        
+        Integer qtTotal = estoques.stream()
+                .filter(e -> e.flAtivo())
+                .mapToInt(e -> e.qtEstoque() != null ? e.qtEstoque() : 0)
+                .sum();
+        
+        EstoqueResponseDTO primeiro = estoques.get(0);
+        EstoqueResponseDTO estoqueTotal = new EstoqueResponseDTO(
+                primeiro.cdEstoque(), qtTotal, true, primeiro.cdProduto(), primeiro.nmProduto());
+        
+        return ResponseEntity.ok(estoqueTotal);
+    }
+
+    @PutMapping("/baixar-estoque-ficticio/{cdProduto}")
+    @Operation(
+            summary = "Baixar estoque para pedido fictício",
+            description = "Baixa estoque de um produto para finalização de pedido fictício (não requer autenticação)"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Estoque baixado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = EstoqueResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Dados inválidos ou estoque insuficiente",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Produto não encontrado",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<EstoqueResponseDTO> baixarEstoqueFicticio(
+            @Parameter(description = "Código do produto", required = true, example = "1")
+            @PathVariable Long cdProduto,
+            @Parameter(description = "Quantidade a baixar", required = true)
+            @RequestParam Integer quantidade) {
+        
+        if (!estoqueService.temEstoque(cdProduto, quantidade)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        
+        estoqueService.baixarEstoque(cdProduto, quantidade);
+        List<EstoqueResponseDTO> estoques = estoqueService.consultarEstoquesPorProduto(cdProduto);
+        
+        if (estoques.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        
+        Integer qtTotal = estoques.stream()
+                .filter(e -> e.flAtivo())
+                .mapToInt(e -> e.qtEstoque() != null ? e.qtEstoque() : 0)
+                .sum();
+        
+        EstoqueResponseDTO primeiro = estoques.get(0);
+        EstoqueResponseDTO estoqueAtualizado = new EstoqueResponseDTO(
+                primeiro.cdEstoque(), qtTotal, true, primeiro.cdProduto(), primeiro.nmProduto());
+        
+        return ResponseEntity.ok(estoqueAtualizado);
     }
 
     @PutMapping("/atualizar/{cdEstoque}")
@@ -139,11 +220,6 @@ public class EstoqueController {
             @ApiResponse(
                     responseCode = "404",
                     description = "Estoque não encontrado",
-                    content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
                     content = @Content
             )
     })
@@ -172,11 +248,6 @@ public class EstoqueController {
                     responseCode = "404",
                     description = "Estoque não encontrado",
                     content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
             )
     })
     public ResponseEntity<EstoqueResponseDTO> desativarEstoque(
@@ -204,11 +275,6 @@ public class EstoqueController {
             @ApiResponse(
                     responseCode = "404",
                     description = "Estoque não encontrado",
-                    content = @Content
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
                     content = @Content
             )
     })

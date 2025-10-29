@@ -46,11 +46,6 @@ public class RoleController {
                     description = "Dados inválidos fornecidos",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<RoleResponseDTO> cadastrarRole(
             @Parameter(description = "Dados da role a ser cadastrada", required = true)
@@ -78,11 +73,6 @@ public class RoleController {
                     description = "Role não encontrada",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<RoleResponseDTO> consultar(
             @Parameter(description = "Código da role", required = true, example = "1")
@@ -105,11 +95,6 @@ public class RoleController {
                             schema = @Schema(implementation = RoleModel.class)
                     )
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<List<RoleModel>> consultarTodos() {
         var roles = roleService.consultarTodos();
@@ -140,11 +125,6 @@ public class RoleController {
                     description = "Role não encontrada",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<RoleResponseDTO> atualizarRole(
             @Parameter(description = "Código da role", required = true, example = "1")
@@ -171,11 +151,6 @@ public class RoleController {
                     description = "Role não encontrada",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<Void> deletarRole(
             @Parameter(description = "Código da role", required = true, example = "1")

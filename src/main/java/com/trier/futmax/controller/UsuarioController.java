@@ -45,11 +45,6 @@ public class UsuarioController {
                     description = "Dados inválidos fornecidos",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<UsuarioResponseDTO> criar(
             @Parameter(description = "Dados do usuário a ser criado", required = true)
@@ -72,11 +67,6 @@ public class UsuarioController {
                             schema = @Schema(implementation = UsuarioResponseDTO.class)
                     )
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<List<UsuarioResponseDTO>> listar() {
         return ResponseEntity.status(HttpStatus.OK).body(service.listar());
@@ -101,11 +91,6 @@ public class UsuarioController {
                     description = "Usuário não encontrado",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<UsuarioResponseDTO> desativar(
             @Parameter(description = "Código do usuário", required = true, example = "1")
@@ -133,11 +118,6 @@ public class UsuarioController {
                     description = "Usuário não encontrado",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content
-            )
     })
     public ResponseEntity<UsuarioResponseDTO> reativar(
             @Parameter(description = "Código do usuário", required = true, example = "1")
