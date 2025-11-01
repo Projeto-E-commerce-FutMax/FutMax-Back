@@ -8,6 +8,8 @@ public class FutmaxApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FutmaxApplication.class, args);
+
+
 	}
 
 }

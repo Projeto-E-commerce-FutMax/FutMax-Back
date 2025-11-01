@@ -45,13 +45,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/role/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll()
 
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/produto/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/estoque/produto/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/estoque/baixar-estoque-ficticio/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/estoque/baixar-estoque/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/estoque/**").hasRole("ADMIN")
 
                         .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
@@ -63,7 +62,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/estoque/**").hasRole("ADMIN")
                         .requestMatchers("/api/role/**").hasRole("ADMIN")
 
-                        .requestMatchers("/api/pedidos/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/pedidos/cadastrar").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/pedidos/usuario/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/pedidos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/pedidos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/pedidos/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
