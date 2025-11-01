@@ -64,7 +64,6 @@ public class ProdutoService {
         return produto.stream().map(this:: convertToResponseDTO).toList();
     }
     private ProdutoResponseDTO convertToResponseDTO(ProdutoModel produto) {
-        // Buscar estoque do produto
         Integer qtEstoque = 0;
         try {
             List<com.trier.futmax.dto.response.EstoqueResponseDTO> estoques = estoqueService.consultarEstoquesPorProduto(produto.getCdProduto());
@@ -73,7 +72,6 @@ public class ProdutoService {
                     .mapToInt(e -> e.qtEstoque() != null ? e.qtEstoque() : 0)
                     .sum();
         } catch (Exception e) {
-            // Se não encontrar estoque, mantém 0
             qtEstoque = 0;
         }
         

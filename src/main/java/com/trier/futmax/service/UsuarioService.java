@@ -47,7 +47,6 @@ public class UsuarioService {
         Set<RoleModel> roles = new HashSet<>();
 
         if (dto.roles() != null && !dto.roles().isEmpty()) {
-            // Se roles foram enviadas no DTO, usa elas
             for (String roleName : dto.roles()) {
                 RoleModel role = roleRepository.findByNmRole(roleName)
                         .orElseGet(() -> {

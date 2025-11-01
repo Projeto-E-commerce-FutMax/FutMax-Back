@@ -118,7 +118,6 @@ public class EstoqueService {
     public boolean temEstoque(Long cdProduto, Integer quantidade) {
         List<EstoqueModel> estoques = estoqueRepository.findAll();
 
-        //Somatodo o estoque disponível deste produto em todos os locais
         int estoqueTotal = estoques.stream()
                 .filter(e -> e.getProduto() != null &&
                         e.getProduto().getCdProduto().equals(cdProduto) &&
@@ -136,13 +135,11 @@ public class EstoqueService {
 
         int quantidadeRestante = quantidade;
 
-        // Itera pelos estoques e vai baixando até completar a quantidade
         for (EstoqueModel estoque : estoques) {
             if (quantidadeRestante <= 0) {
                 break;
             }
 
-            // Verifica se é o produto correto, está ativo e tem quantidade
             if (estoque.getProduto() != null &&
                     estoque.getProduto().getCdProduto().equals(cdProduto) &&
                     estoque.getFlAtivo() &&
@@ -151,7 +148,6 @@ public class EstoqueService {
                 int qtDisponivel = estoque.getQtEstoque();
                 int qtBaixar = Math.min(qtDisponivel, quantidadeRestante);
 
-                // Atualiza a quantidade do estoque
                 estoque.setQtEstoque(qtDisponivel - qtBaixar);
                 estoqueRepository.save(estoque);
 
@@ -159,7 +155,6 @@ public class EstoqueService {
             }
         }
 
-        // Se ainda sobrou quantidade, significa que não tinha estoque suficiente
         if (quantidadeRestante > 0) {
             throw new RuntimeException("Estoque insuficiente para o produto código: " + cdProduto);
         }

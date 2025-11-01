@@ -4,5 +4,6 @@ public record RoleResponseDTO(
 
         Long cdRole,
         String nmRole
+
 ) {
 }

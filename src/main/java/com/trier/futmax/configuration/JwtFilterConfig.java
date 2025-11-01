@@ -1,6 +1,5 @@
 package com.trier.futmax.configuration;
 
-
 import com.trier.futmax.util.JwtAuthFilter;
 import com.trier.futmax.util.JwtUtil;
 import org.springframework.context.annotation.Bean;

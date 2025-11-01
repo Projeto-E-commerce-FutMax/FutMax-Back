@@ -33,11 +33,9 @@ public class PedidoService {
     @Transactional
     public PedidoResponseDTO criarPedido(PedidoRequestDTO pedidoRequest) {
 
-        // 1. Buscar usuário
         UsuarioModel usuario = usuarioRepository.findById(pedidoRequest.cdUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-        // 2. Criar pedido vazio
         PedidoModel pedido = new PedidoModel();
         pedido.setUsuario(usuario);
         pedido.setDtPedido(LocalDateTime.now());
@@ -46,24 +44,19 @@ public class PedidoService {
 
         Double vlTotalItens = 0.0;
 
-        // 3. Processar cada item do pedido
         for (ItemPedidoRequestDTO itemDTO : pedidoRequest.itens()) {
 
-            // 3.1 Buscar produto
             ProdutoModel produto = produtoRepository.findById(itemDTO.cdProduto())
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + itemDTO.cdProduto()));
 
-            // 3.2 Verificar se produto está ativo
             if (!produto.getFlAtivo()) {
                 throw new RuntimeException("Produto inativo: " + produto.getNmProduto());
             }
 
-            // 3.3 Verificar estoque
             if (!estoqueService.temEstoque(itemDTO.cdProduto(), itemDTO.qtItem())) {
                 throw new RuntimeException("Estoque insuficiente para: " + produto.getNmProduto());
             }
 
-            // 3.4 Criar item do pedido
             ItemPedidoModel item = new ItemPedidoModel();
             item.setPedido(pedido);
             item.setProduto(produto);
@@ -72,15 +65,12 @@ public class PedidoService {
             item.setVlTotal(produto.getVlProduto() * itemDTO.qtItem());
             item.setFlAtivo(true);
 
-            // 3.5 Baixar estoque
             estoqueService.baixarEstoque(itemDTO.cdProduto(), itemDTO.qtItem());
 
-            // 3.6 Adicionar item ao pedido
             pedido.getItens().add(item);
             vlTotalItens += item.getVlTotal();
         }
 
-        // 4. Calcular frete e total
         Double vlFrete = calcularFrete(vlTotalItens);
         pedido.setVlItens(vlTotalItens);
         pedido.setVlFrete(vlFrete);

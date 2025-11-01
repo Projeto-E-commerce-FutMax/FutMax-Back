@@ -16,7 +16,7 @@ public record PedidoResponseDTO(
         List<ItemPedidoResponseDTO> itens
 
 ) {
-    // Construtor para compatibilidade com código existente (sem itens)
+
     public PedidoResponseDTO(
             Long cdPedido,
             Long cdUsuario,
@@ -26,6 +26,7 @@ public record PedidoResponseDTO(
             Double vlTotalPedido,
             LocalDateTime dtPedido,
             Boolean flAtivo
+
     ) {
         this(cdPedido, cdUsuario, nmUsuario, vlItens, vlFrete, vlTotalPedido, dtPedido, flAtivo, List.of());
     }

@@ -28,10 +28,8 @@ import java.nio.file.Files;
 @Tag(name = "Produto", description = "API para gerenciamento de produtos")
 public class ProdutoController {
     private static final Path UPLOAD_DIR = Paths.get(System.getProperty("user.dir"), "uploads").toAbsolutePath().normalize();
-    
-    // Caminhos possíveis para pasta img do frontend (fallback)
+
     private static Path getFrontendImgDir() {
-        // Tentar diferentes caminhos possíveis
         Path[] possiblePaths = {
             Paths.get(System.getProperty("user.dir"), "..", "FutMax-Front-main", "img").toAbsolutePath().normalize(),
             Paths.get(System.getProperty("user.dir"), "..", "..", "FutMax-Front-main", "img").toAbsolutePath().normalize(),
@@ -45,8 +43,7 @@ public class ProdutoController {
                 return path;
             }
         }
-        
-        // Retornar o primeiro caminho por padrão (será verificado depois)
+
         return possiblePaths[0];
     }
 
@@ -114,7 +111,6 @@ public class ProdutoController {
             Resource resource = new UrlResource(filePath.toUri());
             
             if (!resource.exists() || !resource.isReadable()) {
-                // Tentar fallback: remover timestamp do nome se existir
                 String originalFilename = filename;
                 if (filename.contains("_")) {
                     int underscoreIndex = filename.indexOf("_");
@@ -123,12 +119,10 @@ public class ProdutoController {
                             Long.parseLong(filename.substring(0, underscoreIndex));
                             originalFilename = filename.substring(underscoreIndex + 1);
                         } catch (NumberFormatException e) {
-                            // Não é timestamp
                         }
                     }
                 }
-                
-                // Tentar servir da pasta img do frontend
+
                 Path fallbackPath = getFrontendImgDir().resolve(originalFilename).normalize();
                 try {
                     Resource fallbackResource = new UrlResource(fallbackPath.toUri());
@@ -139,7 +133,6 @@ public class ProdutoController {
                                 .body(fallbackResource);
                     }
                 } catch (Exception e) {
-                    // Fallback falhou
                 }
                 return ResponseEntity.notFound().build();
             }

@@ -1,6 +1,5 @@
 package com.trier.futmax.dto.request;
 
-
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 

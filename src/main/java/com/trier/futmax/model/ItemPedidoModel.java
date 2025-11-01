@@ -14,6 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class ItemPedidoModel {
 
     @Id
@@ -40,4 +41,5 @@ public class ItemPedidoModel {
 
     @Column(name = "FLATIVO")
     private Boolean flAtivo;
+
 }

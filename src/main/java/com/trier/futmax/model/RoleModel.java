@@ -12,12 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TBROLE")
+
 public class RoleModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CDROLE")
     private Long cdRole;
+
     @Column(name = "NMROLE", unique = true, nullable = false)
     private String nmRole;
 

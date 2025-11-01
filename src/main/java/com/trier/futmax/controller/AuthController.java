@@ -32,6 +32,7 @@ public class AuthController {
     @Operation(summary = "Realizar login", description = "Autentica o usuário e retorna um token JWT")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequest) {
         try {
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             authRequest.getNmEmail(),
@@ -40,6 +41,7 @@ public class AuthController {
             );
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getNmEmail());
+
             String token = jwtUtil.generateToken(userDetails);
 
             UsuarioModel usuario = usuarioRepository.findByNmEmail(authRequest.getNmEmail())
@@ -48,7 +50,9 @@ public class AuthController {
             return ResponseEntity.ok(new AuthResponseDTO(token, usuario));
 
         } catch (Exception e) {
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
         }
     }
 }

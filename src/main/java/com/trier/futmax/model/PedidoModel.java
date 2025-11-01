@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+
 public class PedidoModel {
 
     @Id
@@ -46,4 +47,5 @@ public class PedidoModel {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedidoModel> itens = new ArrayList<>();
+
 }
