@@ -4,5 +4,8 @@ public record ProdutoResponseDTO(Long cdProduto,
                                  String nmProduto,
                                  String dsProduto,
                                  Double vlProduto,
-                                 Boolean flAtivo) {
+                                 Boolean flAtivo,
+                                 String imgUrl,
+                                 Integer qtEstoque,
+                                 String nmCategoria) {
 }

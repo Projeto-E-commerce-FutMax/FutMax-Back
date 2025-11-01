@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "TBESTOQUE")
+@Entity
 @Table(name = "TBESTOQUE")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,9 +18,6 @@ public class EstoqueModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CDESTOQUE")
     private Long cdEstoque;
-
-    @Column(name = "CDLOCALESTOQUE")
-    private String cdLocalEstoque;
 
     @Column(name = "QTESTOQUE")
     private Integer qtEstoque;

@@ -12,6 +12,7 @@ public record ProdutoRequestDTO(
 
         @NotNull (message = "O preço do produto é obrigatório")
         @Positive (message = "O preço do produto deve ser positivo")
+        @Min(value = 100)
         Double vlProduto,
 
         @NotNull (message = "A descrição do produto é obrigatória")
@@ -19,7 +20,12 @@ public record ProdutoRequestDTO(
         String dsProduto,
 
         @NotNull(message = "O status ativo é obrigatório")
-        Boolean flAtivo
+        Boolean flAtivo,
+
+        String imgUrl,
+
+        @NotBlank(message = "A categoria é obrigatória")
+        String nmCategoria
 ) {
 
 

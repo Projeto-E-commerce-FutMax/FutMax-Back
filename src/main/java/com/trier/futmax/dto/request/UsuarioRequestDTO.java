@@ -4,6 +4,8 @@ package com.trier.futmax.dto.request;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.List;
+
 public record UsuarioRequestDTO(
 
         Long cdUsuario,
@@ -38,7 +40,9 @@ public record UsuarioRequestDTO(
         String dsEndereco,
 
         @NotNull(message = "O status ativo é obrigatório")
-        Boolean flAtivo
+        Boolean flAtivo,
+
+        List<String>roles
 
 ) { }
 

@@ -1,5 +1,6 @@
 package com.trier.futmax.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TBUSUARIO")
+
 public class UsuarioModel {
 
     @Id
@@ -26,16 +28,17 @@ public class UsuarioModel {
     @Column(name = "NMUSUARIO")
     private String nmUsuario;
 
-    @Column(name = "NMEMAIL")
+    @Column(name = "NMEMAIL", unique = true)
     private String nmEmail;
 
-    @Column(name = "NMCPF")
+    @Column(name = "NMCPF", unique = true)
     private String nmCpf;
 
     @Column(name = "NMSENHA")
+    @JsonIgnore
     private String nmSenha;
 
-    @Column(name = "NMTELEFONE")
+    @Column(name = "NMTELEFONE", unique = true)
     private String nmTelefone;
 
     @Column(name = "NMENDERECO")
@@ -45,9 +48,7 @@ public class UsuarioModel {
     private String dsEndereco;
 
     @Column(name = "FLATIVO")
-
     private Boolean flAtivo;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TBUSUARIOROLES",
