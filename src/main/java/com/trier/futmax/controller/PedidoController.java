@@ -130,4 +130,15 @@ public class PedidoController {
         List<PedidoResponseDTO> pedidos = pedidoService.buscarTodos();
         return ResponseEntity.ok(pedidos);
     }
+
+    @GetMapping("/usuario/{cdUsuario}")
+    @Operation(
+            summary = "Buscar pedidos de um usuário",
+            description = "Retorna todos os pedidos de um usuário específico"
+    )
+    public ResponseEntity<List<PedidoResponseDTO>> buscarPedidosPorUsuario(
+            @PathVariable Long cdUsuario) {
+        List<PedidoResponseDTO> pedidos = pedidoService.buscarPedidosPorUsuario(cdUsuario);
+        return ResponseEntity.ok(pedidos);
+    }
 }
