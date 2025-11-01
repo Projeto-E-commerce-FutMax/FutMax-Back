@@ -159,4 +159,36 @@ public class PedidoService {
                 pedido.getFlAtivo()
         );
     }
+    public List<PedidoResponseDTO> buscarPedidosPorUsuario(Long cdUsuario) {
+        List<PedidoModel> pedidos = pedidoRepository.findByUsuarioCdUsuarioAndFlAtivoTrue(cdUsuario);
+
+        return pedidos.stream()
+                .map(pedido -> {
+                    List<ItemPedidoResponseDTO> itens = pedido.getItens().stream()
+                            .map(item -> new ItemPedidoResponseDTO(
+                                    item.getCdItemPedido(),
+                                    item.getPedido().getCdPedido(),
+                                    item.getProduto().getCdProduto(),
+                                    item.getProduto().getNmProduto(),
+                                    item.getQtItem(),
+                                    item.getVlUnitario(),
+                                    item.getVlTotal(),
+                                    item.getFlAtivo()
+                            ))
+                            .toList();
+
+                    return new PedidoResponseDTO(
+                            pedido.getCdPedido(),
+                            pedido.getUsuario().getCdUsuario(),
+                            pedido.getUsuario().getNmUsuario(),
+                            pedido.getVlItens(),
+                            pedido.getVlFrete(),
+                            pedido.getVlTotalPedido(),
+                            pedido.getDtPedido(),
+                            pedido.getFlAtivo(),
+                            itens
+                    );
+                })
+                .toList();
+    }
 }

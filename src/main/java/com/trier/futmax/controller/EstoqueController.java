@@ -144,10 +144,10 @@ public class EstoqueController {
         return ResponseEntity.ok(estoqueTotal);
     }
 
-    @PutMapping("/baixar-estoque-ficticio/{cdProduto}")
+    @PutMapping("/baixar-estoque/{cdProduto}")
     @Operation(
-            summary = "Baixar estoque para pedido fictício",
-            description = "Baixa estoque de um produto para finalização de pedido fictício (não requer autenticação)"
+            summary = "Baixar estoque para pedido",
+            description = "Baixa estoque de um produto para finalização de pedido"
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -169,7 +169,7 @@ public class EstoqueController {
                     content = @Content
             )
     })
-    public ResponseEntity<EstoqueResponseDTO> baixarEstoqueFicticio(
+    public ResponseEntity<EstoqueResponseDTO> baixarEstoque(
             @Parameter(description = "Código do produto", required = true, example = "1")
             @PathVariable Long cdProduto,
             @Parameter(description = "Quantidade a baixar", required = true)

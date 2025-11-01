@@ -129,16 +129,6 @@ public class EstoqueService {
         return estoqueTotal >= quantidade;
     }
 
-    public Integer consultarQuantidadeDisponivel(Long cdProduto) {
-        List<EstoqueModel> estoques = estoqueRepository.findAll();
-
-        return estoques.stream()
-                .filter(e -> e.getProduto() != null &&
-                        e.getProduto().getCdProduto().equals(cdProduto) &&
-                        e.getFlAtivo())
-                .mapToInt(EstoqueModel::getQtEstoque)
-                .sum();
-    }
 
     @Transactional
     public void baixarEstoque(Long cdProduto, Integer quantidade) {
@@ -149,7 +139,7 @@ public class EstoqueService {
         // Itera pelos estoques e vai baixando até completar a quantidade
         for (EstoqueModel estoque : estoques) {
             if (quantidadeRestante <= 0) {
-                break; // Quantidade completa já foi baixada
+                break;
             }
 
             // Verifica se é o produto correto, está ativo e tem quantidade
@@ -174,46 +164,6 @@ public class EstoqueService {
             throw new RuntimeException("Estoque insuficiente para o produto código: " + cdProduto);
         }
     }
-
-    @Transactional
-    public EstoqueResponseDTO adicionarEstoque(Long cdProduto, String cdLocalEstoque, Integer quantidade) {
-
-        // Buscar produto
-        ProdutoModel produto = produtoRepository.findById(cdProduto)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
-
-        // Buscar ou criar estoque para este produto neste local
-        List<EstoqueModel> estoques = estoqueRepository.findAll();
-
-        EstoqueModel estoque = estoques.stream()
-                .filter(e -> e.getProduto() != null &&
-                        e.getProduto().getCdProduto().equals(cdProduto) &&
-                        e.getFlAtivo())
-                .findFirst()
-                .orElse(null);
-
-        if (estoque == null) {
-            // Criar novo estoque
-            estoque = new EstoqueModel();
-            estoque.setProduto(produto);
-            estoque.setQtEstoque(quantidade);
-            estoque.setFlAtivo(true);
-        } else {
-            // Adicionar ao estoque existente
-            estoque.setQtEstoque(estoque.getQtEstoque() + quantidade);
-        }
-
-        estoqueRepository.save(estoque);
-
-        return new EstoqueResponseDTO(
-                estoque.getCdEstoque(),
-                estoque.getQtEstoque(),
-                estoque.getFlAtivo(),
-                estoque.getProduto().getCdProduto(),
-                estoque.getProduto().getNmProduto()) ;
-
-    }
-
 
     public List<EstoqueResponseDTO> consultarEstoquesPorProduto(Long cdProduto) {
         List<EstoqueModel> estoques = estoqueRepository.findAll();
